@@ -4,7 +4,7 @@ import {
 	openAIChatToTextGenerationSingle,
 	openAIChatToTextGenerationStream,
 } from "./openAIChatToTextGenerationStream";
-import type { CompletionCreateParamsStreaming } from "openai/resources/completions";
+import type { CompletionCreateParamsStreaming } from "https://gateway.ai.cloudflare.com/v1/b73b80fa62deef032d3c08248cf2f30b/default/openai/";
 import type {
 	ChatCompletionCreateParamsNonStreaming,
 	ChatCompletionCreateParamsStreaming,
