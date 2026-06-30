@@ -6,13 +6,12 @@ import type {
 	InferenceProvider,
 } from "@huggingface/inference";
 import { z } from "zod";
-import { endpointOAIParametersSchema, endpointOai } from "./openai/endpointOai";
+import { endpointOAIParametersSchema, endpointOai } from "https://gateway.ai.cloudflare.com/v1/b73b80fa62deef032d3c08248cf2f30b/default/openai/";
 import type { Model } from "$lib/types/Model";
 import type { ObjectId } from "mongodb";
 
 export type EndpointMessage = Omit<Message, "id">;
 
-// parameters passed when generating text
 export interface EndpointParameters {
 	messages: EndpointMessage[];
 	preprompt?: Conversation["preprompt"];
@@ -21,9 +20,7 @@ export interface EndpointParameters {
 	conversationId?: ObjectId;
 	locals: App.Locals | undefined;
 	abortSignal?: AbortSignal;
-	/** Inference provider preference: "auto", "fastest", "cheapest", or a specific provider name */
 	provider?: string;
-	/** Optional thinking-effort, forwarded as OpenAI `reasoning_effort` when set */
 	reasoningEffort?: "low" | "medium" | "high";
 }
 
@@ -31,15 +28,16 @@ export type TextGenerationStreamOutputSimplified = TextGenerationStreamOutput & 
 	token: TextGenerationStreamToken;
 	routerMetadata?: { route?: string; model?: string; provider?: InferenceProvider };
 };
-// type signature for the endpoint
+
 export type Endpoint = (
 	params: EndpointParameters
 ) => Promise<AsyncGenerator<TextGenerationStreamOutputSimplified, void, void>>;
 
-// list of all endpoint generators
+// ক্লাউডফ্লেয়ার গেটওয়ে এবং ওপেনএআই এন্ডপয়েন্ট কনফিগারেশন
 export const endpoints = {
 	openai: endpointOai,
 };
 
 export const endpointSchema = z.discriminatedUnion("type", [endpointOAIParametersSchema]);
+
 export default endpoints;
